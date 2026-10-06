@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Phishing Email Analyser</title>
+  <meta name="description" content="A free, private, in-browser tool that highlights common phishing and social-engineering warning signs in suspicious emails." />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="page">
+
+    <header class="masthead">
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true">&#9873;</span>
+        <div>
+          <h1>Phishing Email Analyser</h1>
+          <p class="tagline">Spot warning signs in suspicious emails — right in your browser.</p>
+        </div>
+      </div>
+    </header>
+
+    <section class="disclaimer">
+      <strong>Educational triage tool.</strong>
+      This analyser <em>cannot</em> definitively prove whether an email is malicious or safe.
+      It highlights common warning signs so you can make a more informed decision. It is not a substitute for
+      professional security tools.
+    </section>
+
+    <section class="panel input-panel">
+      <h2>Paste the email</h2>
+      <label for="email-body">Email content (subject line and body)</label>
+      <textarea id="email-body" rows="12" placeholder="Paste the full text of the suspicious email here, including the subject line if you have it…"></textarea>
+
+      <details class="headers-details">
+        <summary>Optional: paste full email headers (advanced)</summary>
+        <p class="hint">
+          If your email app can show “full headers” or “message source”, paste them here.
+          This lets the analyser check sender vs Reply-To mismatches and SPF / DKIM / DMARC results.
+          Headers usually look like lines of <code>Key: value</code> text.
+        </p>
+        <label for="email-headers">Email headers</label>
+        <textarea id="email-headers" rows="8" placeholder="From: …&#10;Reply-To: …&#10;Authentication-Results: spf=fail …"></textarea>
+      </details>
+
+      <div class="actions">
+        <button id="analyse-btn" class="btn btn-primary" type="button">Analyse Email</button>
+        <button id="clear-btn" class="btn btn-ghost" type="button">Clear</button>
+      </div>
+      <p class="privacy-line">&#128274; Analysis happens 100% locally in your browser — nothing is uploaded or sent anywhere.</p>
+    </section>
+
+    <section class="panel demo-panel">
+      <h2>Try a fictional example</h2>
+      <p class="hint">These are made-up emails (using the reserved <code>.example</code> domain) so you can safely explore how the scoring works.</p>
+      <div id="demo-buttons" class="demo-buttons"></div>
+    </section>
+
+    <section id="results" class="panel results-panel" hidden aria-live="polite">
+      <h2>Analysis result</h2>
+
+      <div class="result-summary">
+        <div class="score-ring" id="score-ring">
+          <div class="score-ring-inner">
+            <span id="score-value" class="score-value">0</span>
+            <span class="score-label">/ 100</span>
+          </div>
+        </div>
+        <div class="result-text">
+          <span id="risk-badge" class="risk-badge">—</span>
+          <p id="risk-summary" class="risk-summary"></p>
+        </div>
+      </div>
+
+      <p id="score-note" class="score-note"></p>
+
+      <h3>Warning signs detected</h3>
+      <div id="findings" class="findings"></div>
+
+      <h3>What to do next</h3>
+      <ul id="recommendations" class="recommendations"></ul>
+
+      <p class="caution">
+        &#9888;&#65039; Do <strong>not</strong> click links or open attachments just to “test” them.
+        If you are unsure, verify the message independently using the organisation’s official website,
+        app, or a known phone number.
+      </p>
+    </section>
+
+    <section class="panel privacy-panel">
+      <h2>Your privacy</h2>
+      <p>
+        Everything you paste is analysed <strong>entirely inside your own browser</strong> using JavaScript.
+        Your email text is <strong>never</strong> uploaded to a server, sent to an AI provider, or shared with any
+        analytics or tracking service. There are no cookies, no accounts, and no telemetry. You can even save this
+        page and run it fully offline.
+      </p>
+    </section>
+
+    <section class="panel how-panel">
+      <h2>How the score works</h2>
+      <p>
+        The analyser checks your email against a set of named warning signs (urgent language, password requests,
+        suspicious links, attachment red flags, and more). Each warning sign is worth a defined number of points
+        based on how serious it is. The points are added up and capped at 100, and the result is placed into one of
+        three bands:
+      </p>
+      <ul class="band-list">
+        <li><span class="dot dot-low"></span> <strong>Low Risk</strong> — 0–24 points: few or no warning signs.</li>
+        <li><span class="dot dot-suspicious"></span> <strong>Suspicious</strong> — 25–59 points: several warning signs worth investigating.</li>
+        <li><span class="dot dot-high"></span> <strong>High Risk</strong> — 60–100 points: many strong warning signs. Treat with caution.</li>
+      </ul>
+      <p class="hint">Every detected warning sign is listed with its points, so the number is never a mystery.</p>
+    </section>
+
+    <footer class="footer">
+      <p>Phishing Email Analyser — a free educational tool. Built with plain HTML, CSS and JavaScript. No data leaves your device.</p>
+    </footer>
+
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
